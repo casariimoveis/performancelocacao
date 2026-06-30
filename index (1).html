@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casari Performance | Locação Online</title>
+<style>
+:root{--bg:#0d0d0d;--panel:#171717;--panel2:#202020;--line:#343434;--txt:#fff;--muted:#a7a7a7;--yellow:#f4bf18;--green:#22c55e;--red:#ef4444;--blue:#38bdf8;--orange:#fb923c;--shadow:0 18px 45px rgba(0,0,0,.38)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#2b2b2b 0,#0d0d0d 48%);color:var(--txt);min-height:100vh}.app{max-width:1220px;margin:0 auto;padding:18px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 0 18px;border-bottom:1px solid var(--line);margin-bottom:18px}.brand{display:flex;align-items:center;gap:14px}.logo{width:96px;height:48px;border-radius:10px;background:var(--yellow);color:#111;display:flex;align-items:center;justify-content:center;font-weight:1000;letter-spacing:.08em;box-shadow:var(--shadow)}
+.small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.title{font-size:30px;font-weight:900;color:var(--yellow);line-height:1}.subtitle{font-size:13px;color:var(--muted);margin-top:5px}.status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{border:none;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer;background:var(--yellow);color:#111;transition:.18s}button:hover{filter:brightness(1.05);transform:translateY(-1px)}button.secondary{background:#242424;color:#fff;border:1px solid var(--line)}button.danger{background:var(--red);color:#fff}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}.tab{flex:1;min-width:110px;background:#181818;color:var(--muted);border:1px solid var(--line);padding:12px 8px;border-radius:14px}.tab.active{background:var(--yellow);color:#111;border-color:var(--yellow)}
+.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:linear-gradient(180deg,var(--panel),#121212);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);overflow:hidden}.span3{grid-column:span 3}.span4{grid-column:span 4}.span5{grid-column:span 5}.span6{grid-column:span 6}.span7{grid-column:span 7}.span8{grid-column:span 8}.span12{grid-column:span 12}
+h2{font-size:20px;margin-bottom:14px}h3{font-size:15px;color:var(--yellow);margin:12px 0 8px}.muted{color:var(--muted)}.big{font-size:38px;font-weight:900;color:var(--yellow);line-height:1}.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:12px;font-weight:900}.ok{background:rgba(34,197,94,.16);color:#86efac}.bad{background:rgba(239,68,68,.18);color:#fca5a5}.warn{background:rgba(244,191,24,.18);color:#fde68a}.blue{background:rgba(56,189,248,.16);color:#bae6fd}
+select,input,textarea{width:100%;background:#111;border:1px solid #3a3a3a;border-radius:12px;color:#fff;padding:12px;font-size:14px;outline:none}label{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin:10px 0 6px;display:block}.row{display:flex;gap:8px;align-items:end}.row>*{flex:1}
+.actionGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.actionBtn{background:#1f1f1f;color:#fff;border:1px solid #3a3a3a;min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}.actionBtn .ico{font-size:26px}.actionBtn .pts{font-size:12px;color:var(--yellow)}
+.miniGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.mini{background:#202020;border:1px solid #333;border-radius:14px;padding:10px}.mini .label{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}.mini .value{font-size:20px;font-weight:900;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px;border-bottom:1px solid #303030;text-align:left}th{color:var(--yellow);font-size:12px;text-transform:uppercase;letter-spacing:.04em}tr:hover{background:#1e1e1e}.historyItem,.reward{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #333;border-radius:16px;background:#1e1e1e;margin-bottom:10px}.rtitle{font-weight:900}.rdesc{font-size:12px;color:var(--muted);margin-top:3px}.leaderTop{display:flex;gap:12px;align-items:flex-start}.avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#111;background:var(--yellow);flex:0 0 auto}.leaderName{font-size:24px;font-weight:900}.right{text-align:right;margin-left:auto}.footerNote{font-size:12px;color:var(--muted);margin-top:10px}
+.tvOnly{display:none}.tvMode .header,.tvMode .tabs,.tvMode .hideTV{display:none}.tvMode .app{max-width:100%;padding:28px}.tvMode .tvOnly{display:block}.tvMode h2{font-size:34px}.tvMode .big{font-size:58px}.tvPanel{display:none}.tvPanel.active{display:block;animation:fade .45s ease}@keyframes fade{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:860px){.span3,.span4,.span5,.span6,.span7,.span8{grid-column:span 12}.header{flex-direction:column;align-items:flex-start}.status{justify-content:flex-start}.miniGrid{grid-template-columns:repeat(2,1fr)}.actionGrid{grid-template-columns:1fr}.row{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="brand">
+      <div class="logo">CASARI</div>
+      <div>
+        <div class="small">Casari Performance</div>
+        <div class="title">🏠 Locação Online</div>
+        <div class="subtitle">Painel público atualizado + edição com PIN</div>
+      </div>
+    </div>
+    <div class="status">
+      <span id="onlineStatus" class="pill warn">aguardando conexão</span>
+      <button onclick="syncOnline()" class="secondary">Atualizar da planilha</button>
+      <button onclick="toggleTV()">📺 Modo TV</button>
+    </div>
+  </div>
+
+  <div class="tabs hideTV">
+    <button class="tab active" onclick="showTab('placar')">Placar</button>
+    <button class="tab" onclick="showTab('lancar')">Lançar</button>
+    <button class="tab" onclick="showTab('corretores')">Corretores</button>
+    <button class="tab" onclick="showTab('regras')">Regras</button>
+    <button class="tab" onclick="showTab('historico')">Correções</button>
+  </div>
+
+  <section id="tab-placar" class="section active">
+    <div class="grid">
+      <div id="setupWarning" class="card span12" style="display:none">
+        <h2>⚠️ Falta configurar a URL do Apps Script</h2>
+        <p>Abra este arquivo, procure por <b>https://script.google.com/macros/s/AKfycbzhPM9HBHZC7bnujiu954-cg6-TDKAt_g99ElzJyVvRVvnoCtJ2MjRRJtpqK8l0VDZsLg/exec</b> e substitua pela URL /exec da implantação do Apps Script.</p>
+      </div>
+      <div class="card span12">
+        <h2>🏆 Quadro geral da locação</h2>
+        <div id="teamCards" class="grid"></div>
+      </div>
+      <div class="card span8">
+        <h2>📊 Ranking dos corretores</h2>
+        <div id="rankingTable"></div>
+      </div>
+      <div class="card span4">
+        <h2>💰 Prêmios liberados</h2>
+        <div id="bonusResumo"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-lancar" class="section hideTV">
+    <div class="grid">
+      <div class="card span4">
+        <h2>🔐 Edição com PIN</h2>
+        <label>PIN de edição</label>
+        <input type="password" id="pinInput" placeholder="PIN">
+        <div class="row" style="margin-top:10px">
+          <button onclick="salvarPin()">Salvar PIN neste aparelho</button>
+          <button class="secondary" onclick="limparPin()">Limpar</button>
+        </div>
+        <p class="footerNote">Sem PIN, o painel é somente visualização. Troca do PIN: aba Config da planilha.</p>
+      </div>
+
+      <div class="card span4">
+        <h2>✍️ Seleção</h2>
+        <label>Equipe</label>
+        <select id="sel-equipe" onchange="atualizarCorretores();renderSelectedStatus()"></select>
+        <label>Corretor</label>
+        <select id="sel-corretor" onchange="renderSelectedStatus()"></select>
+        <div id="selectedStatus"></div>
+      </div>
+
+      <div class="card span4">
+        <h2>Atividades por clique</h2>
+        <div class="actionGrid">
+          <button class="actionBtn" onclick="registrarSimples('lead')"><span class="ico">👤</span><b>Lead recebido</b><span class="pts">controle</span></button>
+          <button class="actionBtn" onclick="registrarSimples('visita')"><span class="ico">🚪</span><b>Visita realizada</b><span class="pts">meta</span></button>
+          <button class="actionBtn" onclick="registrarSimples('captacao')"><span class="ico">🎯</span><b>Captação feita</b><span class="pts">meta</span></button>
+        </div>
+      </div>
+
+      <div class="card span12">
+        <h2>🏠 Locação fechada</h2>
+        <div class="row">
+          <div>
+            <label>Valor do aluguel</label>
+            <input type="number" id="aluguel" placeholder="Ex: 3500">
+          </div>
+          <div>
+            <label>Taxa de administração (%)</label>
+            <input type="number" id="adm" placeholder="Ex: 10" step="0.1">
+          </div>
+          <div>
+            <label>Primeiro aluguel integral?</label>
+            <select id="integral">
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div>
+            <button style="width:100%" onclick="registrarLocacao()">+ Lançar locação</button>
+          </div>
+        </div>
+        <p class="footerNote">Captação e visita são só clique. Apenas a locação valida valor, taxa de adm e primeiro aluguel integral.</p>
+      </div>
+
+      <div class="card span12">
+        <h2>↩️ Últimos lançamentos</h2>
+        <div id="quickHistory"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-corretores" class="section hideTV">
+    <div class="grid">
+      <div class="card span12">
+        <h2>👥 Gestão por corretor</h2>
+        <div id="corretoresTable"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-regras" class="section hideTV">
+    <div class="grid">
+      <div class="card span4">
+        <h2>✅ Regra de lançamento</h2>
+        <p><b>Lead recebido:</b> 1 clique.</p><br>
+        <p><b>Visita realizada:</b> 1 clique.</p><br>
+        <p><b>Captação feita:</b> 1 clique.</p><br>
+        <p><b>Locação fechada:</b> valor + taxa de adm + 1º aluguel integral.</p>
+      </div>
+      <div class="card span4">
+        <h2>📈 Taxa de adm progressiva</h2>
+        <div id="admRules"></div>
+      </div>
+      <div class="card span4">
+        <h2>🏠 Locação bonificada</h2>
+        <div class="big">Auto</div>
+        <p>O app marca a locação como bonificada quando cumpre a tabela comercial.</p>
+      </div>
+      <div class="card span6">
+        <h2>🎯 Meta de produtividade</h2>
+        <div id="prodRules"></div>
+      </div>
+      <div class="card span6">
+        <h2>🚀 Incentivo extraordinário</h2>
+        <div id="extraRules"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-historico" class="section hideTV">
+    <div class="grid">
+      <div class="card span8">
+        <h2>🧾 Correções</h2>
+        <p class="footerNote" style="margin-bottom:12px">Para desfazer, precisa de PIN. O lançamento fica cancelado na planilha, não apagado.</p>
+        <div id="historyList"></div>
+      </div>
+      <div class="card span4">
+        <h2>Backup visual</h2>
+        <button style="width:100%;margin-bottom:8px" onclick="exportarJson()">Exportar JSON da tela</button>
+        <p class="footerNote">O banco verdadeiro é a planilha. Esse backup é só conferência.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-tv" class="section tvOnly active"><div id="tvContent"></div></section>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzhPM9HBHZC7bnujiu954-cg6-TDKAt_g99ElzJyVvRVvnoCtJ2MjRRJtpqK8l0VDZsLg/exec";
+
+const DEFAULT_DATA = {
+  ok: true,
+  config: { mesAtual: "Junho/2026", atualizacaoSegundos: 60 },
+  corretores: [
+    {equipe:"Maísa",corretor:"Brasil",ativo:"SIM"},{equipe:"Maísa",corretor:"Carol",ativo:"SIM"},
+    {equipe:"Maísa",corretor:"Claudia",ativo:"SIM"},{equipe:"Maísa",corretor:"Danielle",ativo:"SIM"},
+    {equipe:"Maísa",corretor:"Denise",ativo:"SIM"},{equipe:"Maísa",corretor:"Maria",ativo:"SIM"},
+    {equipe:"Maísa",corretor:"Milene",ativo:"SIM"},{equipe:"Maísa",corretor:"Vanessa",ativo:"SIM"},
+    {equipe:"Maísa",corretor:"Outros",ativo:"SIM"},{equipe:"Boituva",corretor:"Daniela",ativo:"SIM"},
+    {equipe:"Outros",corretor:"Outros",ativo:"SIM"}
+  ],
+  regras: {
+    produtividade: [
+      {nivel:"Quase lá",premio:500,captacoes_min:5,visitas_min:25,locacoes_min:2},
+      {nivel:"Intermediária",premio:1000,captacoes_min:6,visitas_min:25,locacoes_min:3},
+      {nivel:"Topo",premio:1500,captacoes_min:7,visitas_min:30,locacoes_min:5}
+    ],
+    adm: [
+      {valor_min:0,valor_max:4000,taxa_adm_min:10},
+      {valor_min:4000.01,valor_max:6000,taxa_adm_min:9},
+      {valor_min:6000.01,valor_max:20000,taxa_adm_min:8},
+      {valor_min:20000.01,valor_max:50000,taxa_adm_min:7},
+      {valor_min:50000.01,valor_max:"",taxa_adm_min:5}
+    ],
+    extra: [
+      {locacoes_bonificadas_min:5,premio:500},{locacoes_bonificadas_min:6,premio:700},
+      {locacoes_bonificadas_min:7,premio:900},{locacoes_bonificadas_min:8,premio:1100},
+      {locacoes_bonificadas_min:9,premio:1500},{locacoes_bonificadas_min:10,premio:2000}
+    ]
+  },
+  lancamentos: []
+};
+
+let onlineData = structuredClone(DEFAULT_DATA);
+let timer = null, tvIndex = 0, tvTimer = null;
+
+function apiReady(){ return API_URL && !API_URL.includes("COLE_AQUI"); }
+function setStatus(text, type="warn"){ const el=document.getElementById("onlineStatus"); el.textContent=text; el.className="pill "+type; }
+function money(v){ return (Number(v)||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0}); }
+function num(v){ return Number(String(v ?? "").replace(",", ".")) || 0; }
+function ativo(v){ return String(v || "").toUpperCase() !== "NÃO"; }
+function key(e,c){ return e+"|"+c; }
+function getPin(){ return document.getElementById("pinInput").value || localStorage.getItem("casari_locacao_pin") || ""; }
+function salvarPin(){ const p=document.getElementById("pinInput").value.trim(); if(!p) return toast("Digite o PIN"); localStorage.setItem("casari_locacao_pin",p); toast("PIN salvo neste aparelho"); }
+function limparPin(){ localStorage.removeItem("casari_locacao_pin"); document.getElementById("pinInput").value=""; toast("PIN apagado deste aparelho"); }
+
+function jsonp(action, params={}){
+  return new Promise((resolve,reject)=>{
+    if(!apiReady()) return reject(new Error("URL do Apps Script não configurada"));
+    const cb = "cb_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+    const qs = new URLSearchParams({action, callback: cb});
+    Object.entries(params).forEach(([k,v]) => qs.append(k, v));
+    const s = document.createElement("script");
+    const cleanup=()=>{ delete window[cb]; s.remove(); };
+    const timeout=setTimeout(()=>{ cleanup(); reject(new Error("Tempo esgotado na conexão")); }, 20000);
+    window[cb]=(data)=>{ clearTimeout(timeout); cleanup(); resolve(data); };
+    s.onerror=()=>{ clearTimeout(timeout); cleanup(); reject(new Error("Erro de rede")); };
+    s.src = API_URL + "?" + qs.toString();
+    document.body.appendChild(s);
+  });
+}
+
+async function syncOnline(silent=false){
+  if(!apiReady()){
+    document.getElementById("setupWarning").style.display="block";
+    setStatus("URL não configurada","bad");
+    renderAll();
+    return;
+  }
+  try{
+    if(!silent) setStatus("atualizando...","warn");
+    const data = await jsonp("state");
+    if(!data.ok) throw new Error(data.error || "Erro ao buscar dados");
+    onlineData = data;
+    setupSelects();
+    renderAll();
+    setStatus("online • atualizado "+new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),"ok");
+  }catch(err){
+    setStatus("erro de conexão","bad");
+    if(!silent) toast(err.message);
+  }
+}
+
+async function apiAdd(payload){
+  const pin=getPin();
+  if(!pin) return toast("Digite o PIN de edição");
+  try{
+    setStatus("gravando...","warn");
+    const data = await jsonp("add", {pin, payload: JSON.stringify(payload)});
+    if(!data.ok) throw new Error(data.error || "Erro ao gravar");
+    onlineData = data;
+    setupSelects();
+    renderAll();
+    setStatus("online • gravado","ok");
+    toast("Lançamento registrado");
+  }catch(err){ setStatus("erro ao gravar","bad"); toast(err.message); }
+}
+
+async function registrarSimples(atividade){
+  const p=selected(); if(!p) return toast("Selecione equipe e corretor");
+  await apiAdd({atividade, equipe:p.equipe, corretor:p.corretor, usuario:"Casari"});
+}
+
+async function registrarLocacao(){
+  const p=selected(); if(!p) return toast("Selecione equipe e corretor");
+  const valor=num(document.getElementById("aluguel").value);
+  const adm=num(document.getElementById("adm").value);
+  const integral=document.getElementById("integral").value;
+  if(!valor || !adm) return toast("Informe aluguel e taxa de adm");
+  await apiAdd({atividade:"locacao", equipe:p.equipe, corretor:p.corretor, valor_aluguel:valor, taxa_adm:adm, primeiro_aluguel_integral:integral, usuario:"Casari"});
+  document.getElementById("aluguel").value="";
+  document.getElementById("adm").value="";
+}
+
+async function undo(id){
+  const pin=getPin();
+  if(!pin) return toast("Digite o PIN de edição");
+  if(!confirm("Desfazer este lançamento?")) return;
+  try{
+    const data = await jsonp("undo", {pin, id});
+    if(!data.ok) throw new Error(data.error || "Erro ao desfazer");
+    onlineData = data; renderAll(); setStatus("online • corrigido","ok"); toast("Lançamento cancelado");
+  }catch(err){ setStatus("erro ao corrigir","bad"); toast(err.message); }
+}
+
+function activeLancamentos(){
+  return (onlineData.lancamentos || []).filter(x => String(x.status || "ATIVO").toUpperCase() !== "CANCELADO");
+}
+function corretoresAtivos(){
+  return (onlineData.corretores || []).filter(c => ativo(c.ativo));
+}
+function buildPessoas(){
+  const pessoas = {};
+  corretoresAtivos().forEach(c => {
+    pessoas[key(c.equipe,c.corretor)] = {equipe:c.equipe, corretor:c.corretor, leads:0, visitas:0, captacoes:0, locacoes:0, locacoesBonificadas:0, aluguelTotal:0};
+  });
+  activeLancamentos().forEach(l => {
+    const k = key(l.equipe,l.corretor);
+    if(!pessoas[k]) pessoas[k] = {equipe:l.equipe, corretor:l.corretor, leads:0, visitas:0, captacoes:0, locacoes:0, locacoesBonificadas:0, aluguelTotal:0};
+    const p = pessoas[k];
+    p.leads += num(l.delta_leads);
+    p.visitas += num(l.delta_visitas);
+    p.captacoes += num(l.delta_captacoes);
+    p.locacoes += num(l.delta_locacoes);
+    p.locacoesBonificadas += num(l.delta_locacoes_bonificadas);
+    p.aluguelTotal += num(l.valor_aluguel) * num(l.delta_locacoes);
+  });
+  return pessoas;
+}
+function equipes(){
+  return [...new Set(corretoresAtivos().map(c=>c.equipe))];
+}
+function produtividadeRules(){
+  return (onlineData.regras?.produtividade || DEFAULT_DATA.regras.produtividade)
+    .map(r=>({nivel:r.nivel, premio:num(r.premio), captacoes_min:num(r.captacoes_min), visitas_min:num(r.visitas_min), locacoes_min:num(r.locacoes_min)}))
+    .sort((a,b)=>a.premio-b.premio);
+}
+function extraRules(){
+  return (onlineData.regras?.extra || DEFAULT_DATA.regras.extra)
+    .map(r=>({locacoes_bonificadas_min:num(r.locacoes_bonificadas_min), premio:num(r.premio)}))
+    .sort((a,b)=>a.locacoes_bonificadas_min-b.locacoes_bonificadas_min);
+}
+function prodBonus(p){
+  const rules = produtividadeRules();
+  let current = {valor:0,nivel:"Não liberado", next: rules[0] || null};
+  rules.forEach(r=>{
+    if(p.captacoes>=r.captacoes_min && p.visitas>=r.visitas_min && p.locacoes>=r.locacoes_min){
+      current = {valor:r.premio,nivel:r.nivel,next:null};
+    }
+  });
+  const idx = rules.findIndex(r=>r.premio===current.valor);
+  const next = current.valor ? rules[idx+1] : rules[0];
+  if(next) current.next = {
+    nome: next.nivel,
+    cap: Math.max(0,next.captacoes_min-p.captacoes),
+    vis: Math.max(0,next.visitas_min-p.visitas),
+    loc: Math.max(0,next.locacoes_min-p.locacoes)
+  };
+  return current;
+}
+function extraBonus(p){
+  let val=0;
+  extraRules().forEach(r=>{ if(p.locacoesBonificadas>=r.locacoes_bonificadas_min) val=r.premio; });
+  return val;
+}
+function pessoasSorted(){
+  return Object.values(buildPessoas()).sort((a,b)=>b.locacoes-a.locacoes || b.aluguelTotal-a.aluguelTotal || b.visitas-a.visitas);
+}
+function selected(){
+  const e=document.getElementById("sel-equipe").value, c=document.getElementById("sel-corretor").value;
+  return e && c ? {equipe:e, corretor:c} : null;
+}
+function setupSelects(){
+  const se=document.getElementById("sel-equipe"); const currentE=se.value;
+  const eqs=equipes();
+  se.innerHTML='<option value="">Selecione...</option>'+eqs.map(e=>`<option value="${e}">${e}</option>`).join("");
+  if(eqs.includes(currentE)) se.value=currentE;
+  atualizarCorretores();
+}
+function atualizarCorretores(){
+  const e=document.getElementById("sel-equipe").value, sc=document.getElementById("sel-corretor"), current=sc.value;
+  const list=corretoresAtivos().filter(c=>c.equipe===e).map(c=>c.corretor);
+  sc.innerHTML='<option value="">Selecione...</option>'+list.map(c=>`<option value="${c}">${c}</option>`).join("");
+  if(list.includes(current)) sc.value=current;
+}
+function renderSelectedStatus(){
+  const el=document.getElementById("selectedStatus"), s=selected(); if(!s){el.innerHTML='<p class="footerNote">Selecione um corretor para lançar.</p>';return}
+  const p=buildPessoas()[key(s.equipe,s.corretor)] || {leads:0,visitas:0,captacoes:0,locacoes:0,locacoesBonificadas:0,aluguelTotal:0};
+  const b=prodBonus(p), n=b.next;
+  el.innerHTML=`<div class="miniGrid" style="margin-top:12px">
+    <div class="mini"><div class="label">Leads</div><div class="value">${p.leads}</div></div>
+    <div class="mini"><div class="label">Visitas</div><div class="value">${p.visitas}</div></div>
+    <div class="mini"><div class="label">Captações</div><div class="value">${p.captacoes}</div></div>
+    <div class="mini"><div class="label">Locações</div><div class="value">${p.locacoes}</div></div>
+  </div><div style="margin-top:12px"><span class="pill ${b.valor?'ok':'bad'}">${b.nivel}: ${money(b.valor)}</span></div>
+  ${n?`<div class="footerNote">Faltam para ${n.nome}: ${n.cap} captação, ${n.vis} visita, ${n.loc} locação.</div>`:"<div class='footerNote'>Meta máxima liberada.</div>"}`;
+}
+function teamStats(equipe){
+  const ps=Object.values(buildPessoas()).filter(p=>p.equipe===equipe);
+  return {
+    equipe, qtd:ps.length,
+    leads:ps.reduce((s,p)=>s+p.leads,0), visitas:ps.reduce((s,p)=>s+p.visitas,0),
+    captacoes:ps.reduce((s,p)=>s+p.captacoes,0), locacoes:ps.reduce((s,p)=>s+p.locacoes,0),
+    bonificadas:ps.reduce((s,p)=>s+p.locacoesBonificadas,0), aluguel:ps.reduce((s,p)=>s+p.aluguelTotal,0),
+    prod:ps.reduce((s,p)=>s+prodBonus(p).valor,0), extra:ps.reduce((s,p)=>s+extraBonus(p),0)
+  };
+}
+function renderTeamCards(){
+  document.getElementById("teamCards").innerHTML = equipes().map(e=>{
+    const t=teamStats(e);
+    return `<div class="card span4">
+      <div class="leaderTop"><div class="avatar">${e.slice(0,2).toUpperCase()}</div>
+      <div><div class="leaderName">${e}</div><div class="muted">${t.qtd} corretores</div></div>
+      <div class="right"><div class="big">${t.locacoes}</div><div class="muted">locações</div></div></div>
+      <div class="miniGrid" style="margin-top:14px">
+        <div class="mini"><div class="label">Leads</div><div class="value">${t.leads}</div></div>
+        <div class="mini"><div class="label">Visitas</div><div class="value">${t.visitas}</div></div>
+        <div class="mini"><div class="label">Captações</div><div class="value">${t.captacoes}</div></div>
+        <div class="mini"><div class="label">Bonificadas</div><div class="value">${t.bonificadas}</div></div>
+      </div>
+      <div style="margin-top:12px"><span class="pill ok">Prêmios: ${money(t.prod+t.extra)}</span> <span class="pill blue">Aluguel: ${money(t.aluguel)}</span></div>
+    </div>`;
+  }).join("") || "<p class='muted'>Nenhuma equipe configurada.</p>";
+}
+function rowPessoa(p){
+  const b=prodBonus(p);
+  return `<tr><td><b>${p.corretor}</b><div class="muted">${p.equipe}</div></td><td>${p.leads}</td><td>${p.visitas}</td><td>${p.captacoes}</td><td>${p.locacoes}</td><td>${p.locacoesBonificadas}</td><td>${money(p.aluguelTotal)}</td><td><span class="pill ${b.valor?'ok':'bad'}">${b.nivel} • ${money(b.valor)}</span></td><td>${money(extraBonus(p))}</td></tr>`;
+}
+function renderRanking(){
+  const table = `<table><tr><th>Corretor</th><th>Leads</th><th>Visitas</th><th>Captações</th><th>Locações</th><th>Bonificadas</th><th>Aluguel</th><th>Produtividade</th><th>Extra</th></tr>${pessoasSorted().map(rowPessoa).join("")}</table>`;
+  document.getElementById("rankingTable").innerHTML=table;
+  document.getElementById("corretoresTable").innerHTML=table;
+}
+function renderBonusResumo(){
+  const ps=pessoasSorted().filter(p=>prodBonus(p).valor || extraBonus(p)).slice(0,12);
+  document.getElementById("bonusResumo").innerHTML=ps.length?ps.map(p=>`<div class="reward"><div><div class="rtitle">${p.corretor}</div><div class="rdesc">${p.equipe} • Produtividade ${money(prodBonus(p).valor)} • Extra ${money(extraBonus(p))}</div></div></div>`).join(""):'<p class="muted">Nenhum prêmio liberado ainda.</p>';
+}
+function renderRules(){
+  const adm = onlineData.regras?.adm || DEFAULT_DATA.regras.adm;
+  document.getElementById("admRules").innerHTML = `<table><tr><th>Aluguel</th><th>Adm mínima</th></tr>` + adm.map(r=>{
+    const min=num(r.valor_min), max=r.valor_max===""?"":num(r.valor_max), tx=num(r.taxa_adm_min);
+    return `<tr><td>${max?money(min)+" a "+money(max):"Acima de "+money(min)}</td><td>${tx}%</td></tr>`;
+  }).join("") + `</table>`;
+  document.getElementById("prodRules").innerHTML = `<table><tr><th>Nível</th><th>Prêmio</th><th>Captações</th><th>Visitas</th><th>Locações</th></tr>` + produtividadeRules().map(r=>`<tr><td>${r.nivel}</td><td>${money(r.premio)}</td><td>${r.captacoes_min}</td><td>${r.visitas_min}</td><td>${r.locacoes_min}</td></tr>`).join("") + `</table>`;
+  document.getElementById("extraRules").innerHTML = `<table><tr><th>Locações bonificadas</th><th>Prêmio</th></tr>` + extraRules().map(r=>`<tr><td>${r.locacoes_bonificadas_min}</td><td>${money(r.premio)}</td></tr>`).join("") + `</table>`;
+}
+function atividadeLabel(a){ return ({lead:"Lead recebido",visita:"Visita realizada",captacao:"Captação feita",locacao:"Locação fechada"})[a] || a; }
+function renderHistory(){
+  const rows=(onlineData.lancamentos || []).slice().reverse();
+  const html=rows.slice(0,100).map(h=>{
+    const canceled=String(h.status||"ATIVO").toUpperCase()==="CANCELADO";
+    const details = [h.equipe,h.corretor,h.valor_aluguel?money(num(h.valor_aluguel)):"",h.taxa_adm?("adm "+h.taxa_adm+"%"):"",h.primeiro_aluguel_integral?("1º aluguel "+h.primeiro_aluguel_integral):"",h.bonificada?("bonificada "+h.bonificada):"",h.observacao||""].filter(Boolean).join(" • ");
+    return `<div class="historyItem" style="${canceled?'opacity:.45':''}">
+      <div><b>${atividadeLabel(h.atividade)}</b> ${canceled?'<span class="pill bad">cancelado</span>':''}<div class="muted">${formatDate(h.data_hora)} • ${details}</div></div>
+      ${canceled?'':`<button class="secondary" onclick="undo('${h.id_lancamento}')">desfazer</button>`}
+    </div>`;
+  }).join("") || '<p class="muted">Nenhum lançamento ainda.</p>';
+  document.getElementById("historyList").innerHTML=html;
+  document.getElementById("quickHistory").innerHTML=html;
+}
+function formatDate(v){ if(!v) return ""; const d=new Date(v); return isNaN(d)?String(v):d.toLocaleString("pt-BR"); }
+function renderTV(){
+  const teams=equipes().map(teamStats).sort((a,b)=>b.locacoes-a.locacoes||b.aluguel-a.aluguel);
+  const top=pessoasSorted().slice(0,6);
+  const panels=[
+    `<div class="tvPanel active"><div class="card"><h2>🏆 Locação • Ranking de equipes</h2>${teams.map((t,i)=>`<div style="font-size:34px;margin:24px 0">${i+1}. <b>${t.equipe}</b> — <span style="color:var(--yellow)">${t.locacoes} locações</span> • ${t.captacoes} captações • ${t.visitas} visitas</div>`).join("")}</div></div>`,
+    `<div class="tvPanel"><div class="card"><h2>⭐ Top corretores</h2>${top.map((p,i)=>`<div style="font-size:30px;margin:18px 0">${i+1}. <b>${p.corretor}</b> <span class="muted">(${p.equipe})</span> — <span style="color:var(--yellow)">${p.locacoes} locações</span> • ${money(p.aluguelTotal)}</div>`).join("")}</div></div>`,
+    `<div class="tvPanel"><div class="card"><h2>🎯 Meta inicial</h2><div class="big">5 captações + 25 visitas + 2 locações</div><p style="font-size:28px;margin-top:20px">Primeiro degrau para liberar prêmio.</p></div></div>`,
+    `<div class="tvPanel"><div class="card"><h2>✅ Regra de locação</h2><div class="big">Valor + adm + 1º aluguel</div><p style="font-size:28px;margin-top:20px">Captação e visita: 1 clique. Locação: valida regra comercial.</p></div></div>`
+  ];
+  document.getElementById("tvContent").innerHTML=panels.join("");
+  setTVPanel(tvIndex);
+}
+function setTVPanel(i){ const panels=document.querySelectorAll(".tvPanel"); panels.forEach((p,idx)=>p.classList.toggle("active",idx===i%panels.length)); }
+function startTV(){ clearInterval(tvTimer); tvTimer=setInterval(()=>{ tvIndex++; setTVPanel(tvIndex); },10000); }
+function toggleTV(){ document.body.classList.toggle("tvMode"); showTab(document.body.classList.contains("tvMode")?"tv":"placar"); if(document.body.classList.contains("tvMode")) startTV(); else clearInterval(tvTimer); }
+function showTab(tab){
+  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  const names=["placar","lancar","corretores","regras","historico"]; const idx=names.indexOf(tab);
+  if(idx>=0) document.querySelectorAll(".tab")[idx].classList.add("active");
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById("tab-"+tab).classList.add("active");
+  renderAll(false);
+}
+function renderAll(selected=true){ renderTeamCards(); renderRanking(); renderBonusResumo(); renderRules(); renderHistory(); renderTV(); if(selected) renderSelectedStatus(); }
+function exportarJson(){ const blob=new Blob([JSON.stringify(onlineData,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="casari_locacao_painel.json"; a.click(); }
+function toast(msg){const el=document.createElement("div");el.textContent=msg;el.style.cssText="position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:12px 18px;border-radius:14px;font-weight:900;z-index:9999;box-shadow:0 10px 30px #0008";document.body.appendChild(el);setTimeout(()=>el.remove(),2400)}
+
+(function init(){
+  document.getElementById("pinInput").value = localStorage.getItem("casari_locacao_pin") || "";
+  setupSelects(); renderAll();
+  if(apiReady()){
+    syncOnline(true);
+    const seconds = num(onlineData.config?.atualizacaoSegundos) || 60;
+    timer = setInterval(()=>syncOnline(true), Math.max(30, seconds)*1000);
+  }else{
+    document.getElementById("setupWarning").style.display="block";
+    setStatus("URL não configurada","bad");
+  }
+})();
+</script>
+</body>
+</html>
